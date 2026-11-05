@@ -1,0 +1,84 @@
+/* SettingsPage - 기본설정 전체 페이지 래퍼 */
+.settings-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg, #f5f5f7);
+  overflow: hidden;
+}
+
+/* FieldManager를 모달이 아닌 전체 페이지로 표시하기 위해
+   fm-overlay / fm-panel 스타일을 페이지 모드로 재정의 */
+.settings-page .fm-overlay {
+  position: static;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.settings-page .fm-panel {
+  position: static;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: none;
+  background: var(--bg, #f5f5f7);
+}
+
+.settings-page .fm-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border, #e0e0e5);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.settings-page .fm-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text, #1a1a2e);
+  flex: 1;
+}
+
+/* 닫기 버튼 → 뒤로가기 버튼으로 시각 변경 */
+.settings-page .fm-close {
+  background: #f0f0f5;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-sub, #555);
+  transition: background 0.15s;
+}
+.settings-page .fm-close:hover {
+  background: #e0e0ea;
+}
+
+.settings-page .fm-tabs {
+  flex-shrink: 0;
+  background: #fff;
+}
+
+.settings-page .fm-content,
+.settings-page .fm-domain-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}

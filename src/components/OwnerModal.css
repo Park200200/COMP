@@ -1,0 +1,408 @@
+/* ── 소장자 데이터 관리 모달 ── */
+.om2-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 99999;          /* AutoScan의 9000보다 위 */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* 헤더 높이만큼 투명 여백 → 그 아래로 모달 패널 */
+.om2-header-spacer {
+  flex-shrink: 0;
+  height: var(--header-h, 58px);
+}
+
+.om2-modal {
+  background: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #1e293b;
+  border-top: 2px solid #6366f1;
+}
+
+/* 헤더 */
+.om2-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  flex-shrink: 0;
+}
+
+.om2-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6366f1;
+}
+
+.om2-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.om2-count {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-left: 4px;
+}
+
+.om2-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.om2-close:hover { background: #f1f5f9; color: #475569; }
+
+/* 입력 폼 박스 */
+.om2-form-box {
+  padding: 16px 24px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  flex-shrink: 0;
+}
+
+.om2-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 14px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 600px) {
+  .om2-form-grid { grid-template-columns: 1fr; }
+}
+
+.om2-field-cell {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.om2-field-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #6366f1;
+}
+
+.om2-field-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #6366f1;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.om2-field-tag {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.om2-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  font-size: 0.84rem;
+  color: #1e293b;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.om2-input::placeholder { color: #cbd5e1; }
+.om2-input:focus { border-color: #6366f1; }
+
+.om2-img-placeholder {
+  padding: 9px 10px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+}
+
+/* 폼 모드 바 */
+.om2-form-mode-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.om2-mode-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.om2-mode-badge.add {
+  background: #e0e7ff;
+  color: #4f46e5;
+  border: 1px solid #a5b4fc;
+}
+.om2-mode-badge.edit {
+  background: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.om2-mode-name {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* 폼 버튼 */
+.om2-form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.om2-btn-save {
+  flex: 2;
+  padding: 10px;
+  border-radius: 9px;
+  border: none;
+  background: #e8e8f8;
+  color: #4f46e5;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.om2-btn-save:hover:not(:disabled) { background: #d4d4f8; }
+.om2-btn-save:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.om2-btn-reset {
+  flex: 1;
+  padding: 10px;
+  border-radius: 9px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #64748b;
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.om2-btn-reset:hover { background: #f8fafc; }
+
+.om2-btn-delete {
+  flex: 1;
+  padding: 10px;
+  border-radius: 9px;
+  border: 1px solid #fca5a5;
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.om2-btn-delete:hover { background: #fecaca; }
+
+.om2-btn-cancel {
+  flex: 1;
+  padding: 10px;
+  border-radius: 9px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #64748b;
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.om2-btn-cancel:hover { background: #f1f5f9; }
+
+/* 검색 */
+.om2-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 24px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.om2-search-icon {
+  position: absolute;
+  left: 36px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.om2-search {
+  width: 100%;
+  padding: 9px 32px 9px 36px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  color: #1e293b;
+  background: #f8fafc;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.om2-search::placeholder { color: #cbd5e1; }
+.om2-search:focus { border-color: #6366f1; background: #fff; }
+
+.om2-search-clear {
+  position: absolute;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: #94a3b8;
+  cursor: pointer;
+}
+.om2-search-clear:hover { color: #64748b; }
+
+/* 테이블 */
+.om2-table-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 0 0 8px;
+}
+
+.om2-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.om2-th-num,
+.om2-th,
+.om2-th-action {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.om2-th-num { width: 42px; text-align: center; color: #94a3b8; }
+.om2-th-action { width: 60px; }
+
+.om2-th-tag {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 5px;
+  background: #e0e7ff;
+  color: #6366f1;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.om2-tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.12s;
+  cursor: pointer;
+}
+.om2-tr:hover { background: #f0f4ff; }
+.om2-tr.selected { background: #eef2ff; border-color: #a5b4fc; }
+.om2-tr.selected:hover { background: #e0e7ff; }
+
+.om2-td-num {
+  padding: 10px 14px;
+  text-align: center;
+  color: #6366f1;
+  font-size: 0.78rem;
+  font-weight: 600;
+  width: 42px;
+}
+
+.om2-td {
+  padding: 10px 14px;
+  color: #334155;
+  max-width: 160px;
+}
+
+.om2-td-img { width: 60px; }
+
+.om2-thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.om2-dash { color: #cbd5e1; }
+
+.om2-td-empty {
+  padding: 40px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.88rem;
+}
+
+/* 편집 모드 폼 강조 */
+.om2-form-box.edit-mode {
+  background: #fffbeb;
+  border-bottom-color: #fcd34d;
+}
+
+/* 도메인 없음 */
+.om2-no-domain {
+  padding: 60px 24px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.om2-no-domain-sub {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  margin-top: 4px;
+}

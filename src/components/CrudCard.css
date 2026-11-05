@@ -1,0 +1,233 @@
+.crud-card-wrapper {
+  margin: 2rem auto;
+  max-width: 800px;
+  width: 100%;
+}
+
+.crud-card {
+  padding: 2rem 2.25rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Header */
+.crud-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.crud-card-title {
+  display: flex;
+  align-items: flex-baseline;
+  gap: 10px;
+}
+
+.crud-card-title h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.crud-card-title span {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Attributes Checker Bar */
+.relation-checker-trigger {
+  position: relative;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.relation-checker-trigger:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.relation-checker-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 220px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
+  padding: 8px;
+  z-index: 50;
+  animation: slideDown 0.2s ease-out;
+}
+
+.relation-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #334155;
+  transition: all 0.15s ease;
+}
+
+.relation-checkbox-label:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.relation-checkbox-label input[type="checkbox"] {
+  accent-color: #6366f1;
+  width: 15px;
+  height: 15px;
+}
+
+/* Attributes Input Grid */
+.crud-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.crud-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.crud-field.full {
+  width: 100%;
+}
+
+.crud-field.half {
+  width: calc(50% - 10px);
+}
+
+.crud-field.third {
+  width: calc(33.333% - 10px);
+}
+
+.crud-field.thumbnail {
+  width: auto;
+  min-width: 120px;
+}
+
+@media (max-width: 600px) {
+  .crud-field.half,
+  .crud-field.third,
+  .crud-field.thumbnail {
+    width: 100%;
+  }
+}
+
+/* Label */
+.crud-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6366f1;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+.crud-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Input */
+.crud-input {
+  width: 100%;
+  padding: 11px 14px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  color: #0f172a;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.crud-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.crud-input:focus {
+  border-color: #6366f1;
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.crud-textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Field description text */
+.crud-field-description {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+/* Field remove button */
+.field-remove-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: all 0.15s ease;
+}
+
+.crud-input-wrapper:hover .field-remove-btn {
+  opacity: 1;
+}
+
+.field-remove-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Card Actions */
+.crud-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid #f1f5f9;
+}

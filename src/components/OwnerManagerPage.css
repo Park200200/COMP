@@ -1,0 +1,410 @@
+/* ── 소장자 관리 페이지 ── */
+.om-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+  background: #0f1117;
+  color: #e2e8f0;
+  font-family: inherit;
+}
+
+/* 헤더 */
+.om-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: #1a1d27;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.om-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.om-back-btn:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+
+.om-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+}
+
+.om-count {
+  margin-left: 2px;
+  padding: 2px 8px;
+  background: rgba(99,102,241,0.2);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  color: #818cf8;
+  font-weight: 600;
+}
+
+/* 툴바 */
+.om-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: #1a1d27;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.om-search-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.om-search-icon {
+  position: absolute;
+  left: 10px;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.om-search {
+  width: 100%;
+  padding: 8px 32px 8px 34px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.om-search::placeholder { color: #475569; }
+.om-search:focus { border-color: rgba(99,102,241,0.5); }
+
+.om-search-clear {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+.om-search-clear:hover { color: #94a3b8; }
+
+.om-btn-add {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #6366f1;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.om-btn-add:hover { background: #5457e5; }
+
+/* 목록 */
+.om-list {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.om-empty {
+  text-align: center;
+  color: #475569;
+  font-size: 0.9rem;
+  padding: 48px 0;
+}
+
+/* 신규 추가 폼 카드 */
+.om-form-card {
+  max-width: 720px;
+  margin: 12px auto 0;
+  width: calc(100% - 40px);
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.om-form-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #818cf8;
+  margin-bottom: 10px;
+}
+
+/* 카드 */
+.om-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.om-card:hover { border-color: rgba(255,255,255,0.14); }
+.om-card-editing {
+  border-color: rgba(99,102,241,0.4);
+  background: rgba(99,102,241,0.06);
+}
+
+.om-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.om-card-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.om-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.om-card-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.om-card-sub {
+  font-size: 0.78rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.om-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.om-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255,255,255,0.06);
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.om-icon-btn:hover { background: rgba(255,255,255,0.12); color: #94a3b8; }
+.om-icon-btn.danger:hover { background: rgba(239,68,68,0.15); color: #f87171; }
+.om-icon-btn.expand { background: transparent; }
+.om-icon-btn.expand:hover { background: rgba(255,255,255,0.06); }
+
+/* 삭제 확인 */
+.om-delete-confirm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #f87171;
+}
+.om-btn-del-yes {
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid rgba(239,68,68,0.4);
+  background: rgba(239,68,68,0.15);
+  color: #f87171;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.om-btn-del-yes:hover { background: rgba(239,68,68,0.3); }
+.om-btn-del-no {
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: #64748b;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* 상세 보기 */
+.om-card-detail {
+  padding: 4px 14px 12px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.om-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+.om-detail-row svg { flex-shrink: 0; margin-top: 2px; }
+.om-detail-row.memo { color: #64748b; }
+
+.om-detail-date {
+  font-size: 0.7rem;
+  color: #475569;
+  margin-top: 4px;
+}
+
+/* 인라인 편집 폼 */
+.om-form-inline {
+  padding: 0 14px 14px;
+  border-top: 1px solid rgba(99,102,241,0.2);
+}
+
+/* 폼 필드 공통 */
+.om-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.om-field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.om-field-row label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.74rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.om-required { color: #f87171; }
+
+.om-input {
+  padding: 7px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.om-input::placeholder { color: #475569; }
+.om-input:focus { border-color: rgba(99,102,241,0.5); }
+
+.om-textarea {
+  padding: 7px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  outline: none;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.om-textarea::placeholder { color: #475569; }
+.om-textarea:focus { border-color: rgba(99,102,241,0.5); }
+
+/* 폼 버튼 */
+.om-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.om-btn-cancel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: #64748b;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.om-btn-cancel:hover { background: rgba(255,255,255,0.06); color: #94a3b8; }
+
+.om-btn-save {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 16px;
+  border-radius: 7px;
+  border: none;
+  background: #6366f1;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.om-btn-save:hover:not(:disabled) { background: #5457e5; }
+.om-btn-save:disabled { opacity: 0.45; cursor: not-allowed; }

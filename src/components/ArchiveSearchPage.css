@@ -1,0 +1,1663 @@
+/* ===================================================
+   Archive Search Page v4 (asp4-*)
+   - 홈: 배경 이미지 + 중앙 검색창
+   - 결과: 상단 헤더 검색바 + 좌측 필터 + 우측 카드
+=================================================== */
+
+/* ── 홈 화면 ────────────────────────────────────── */
+/* ── 홈 화면 (화이트 테마) ────────────────────────────────────── */
+.asp4-home {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* 배경 오버레이 (밝고 깨끗한 화이트 그라데이션) */
+.asp4-home-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 60% at 50% -10%, #f1f5f9 0%, #ffffff 80%);
+  z-index: 0;
+}
+
+/* 배경 패턴 (은은한 라이트 감성) */
+.asp4-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 50% 30%, rgba(224, 231, 255, 0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 80% 80%, rgba(243, 244, 246, 0.6) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 장식용 은은한 격자 라인 */
+.asp4-home::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 50px,
+      rgba(0, 0, 0, 0.02) 50px,
+      rgba(0, 0, 0, 0.02) 51px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 50px,
+      rgba(0, 0, 0, 0.02) 50px,
+      rgba(0, 0, 0, 0.02) 51px
+    );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.asp4-home-back {
+  position: absolute;
+  top: 18px; left: 18px;
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: all 0.15s;
+}
+.asp4-home-back:hover {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+/* 중앙 콘텐츠 */
+.asp4-home-center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 700px;
+  padding: 0 24px;
+  animation: asp4-fadeInUp 0.5s ease;
+}
+
+@keyframes asp4-fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.asp4-home-subtitle {
+  font-size: 0.85rem;
+  color: #4f46e5;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.asp4-home-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.6px;
+  margin: 0;
+  text-align: center;
+  line-height: 1.35;
+}
+
+/* 검색바 컨테이너 */
+.asp4-home-search-wrap {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 4px 10px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.asp4-home-search-wrap:focus-within {
+  border-color: #4f46e5;
+  box-shadow: 0 12px 30px -5px rgba(79, 70, 229, 0.15), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.asp4-home-domain-sel {
+  padding: 0 14px;
+  min-width: 120px;
+  background: #f8fafc;
+  color: #1e293b;
+  border: none;
+  border-right: 1.5px solid #e2e8f0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+  transition: background-color 0.15s;
+}
+.asp4-home-domain-sel:hover {
+  background-color: #f1f5f9;
+}
+.asp4-home-domain-sel option {
+  background: #ffffff;
+  color: #1e293b;
+  padding: 6px 10px;
+}
+
+.asp4-home-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.asp4-home-input {
+  width: 100%;
+  height: 56px;
+  padding: 0 48px 0 20px;
+  border: none;
+  font-size: 1.02rem;
+  color: #0f172a;
+  outline: none;
+  background: transparent;
+}
+.asp4-home-input::placeholder {
+  color: #94a3b8;
+}
+
+.asp4-home-clear {
+  position: absolute;
+  right: 12px;
+  display: flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.asp4-home-clear:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.asp4-home-search-btn {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+  padding: 0 26px;
+  border: none;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.asp4-home-search-btn:hover {
+  background: #4338ca;
+}
+
+.asp4-home-stats {
+  font-size: 0.85rem;
+  color: #64748b;
+  text-align: center;
+}
+.asp4-home-stats strong {
+  color: #4f46e5;
+  font-weight: 700;
+}
+
+/* 도메인/사료분류 태그 목록 */
+.asp4-home-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 650px;
+}
+
+.asp4-home-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  transition: all 0.15s;
+}
+.asp4-home-tag:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #3730a3;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(79, 70, 229, 0.08);
+}
+.asp4-home-tag.active {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  color: #ffffff;
+}
+.asp4-home-tag-count {
+  background: #f1f5f9;
+  color: #475569;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+.asp4-home-tag.active .asp4-home-tag-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* ── 소장품 종단노드 리스트 (홈 화면 하단) ────────────────── */
+.asp4-home-sojang-section {
+  width: 100%;
+  max-width: 650px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  animation: asp4-fadeInUp 0.5s ease;
+}
+
+.asp4-home-sojang-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: 0.3px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.asp4-home-sojang-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.asp4-home-sojang-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.asp4-home-sojang-item:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #3730a3;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(79, 70, 229, 0.10);
+}
+.asp4-home-sojang-item.active {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.22);
+}
+
+.asp4-home-sojang-cnt {
+  background: #f1f5f9;
+  color: #475569;
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+.asp4-home-sojang-item.active .asp4-home-sojang-cnt {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+
+/* ── 결과 화면 전체 ──────────────────────────────── */
+.asp4-result-page {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  background: #f4f1eb;
+  overflow: hidden;
+}
+
+/* 상단 헤더 (화이트 테마, 중앙 검색창) */
+.asp4-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 56px;
+  padding: 0 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  z-index: 10;
+}
+
+.asp4-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 180px;
+  flex-shrink: 0;
+}
+
+.asp4-header-back {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.asp4-header-back:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.asp4-header-logo {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #4f46e5;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: -0.4px;
+}
+
+/* 검색바 (중앙 정렬) */
+.asp4-header-search {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  max-width: 580px;
+  margin: 0 auto;
+  height: 38px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.asp4-header-search:focus-within {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.asp4-header-domain-sel {
+  padding: 0 24px 0 12px;
+  min-width: 110px;
+  background: #f8fafc;
+  color: #334155;
+  border: none;
+  border-right: 1.5px solid #e2e8f0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  transition: background-color 0.15s;
+}
+.asp4-header-domain-sel:hover { background-color: #f1f5f9; }
+.asp4-header-domain-sel option { background: #ffffff; color: #1e293b; }
+
+.asp4-header-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.asp4-header-input {
+  width: 100%;
+  height: 100%;
+  padding: 0 32px 0 12px;
+  border: none;
+  font-size: 0.88rem;
+  color: #0f172a;
+  outline: none;
+  background: transparent;
+}
+.asp4-header-input::placeholder { color: #94a3b8; }
+
+.asp4-header-clear {
+  position: absolute; right: 8px;
+  display: flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: all 0.15s;
+}
+.asp4-header-clear:hover { background: #e2e8f0; color: #0f172a; }
+
+.asp4-header-search-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px;
+  border: none;
+  background: #4f46e5;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.asp4-header-search-btn:hover { background: #4338ca; }
+
+.asp4-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 180px;
+  flex-shrink: 0;
+}
+.asp4-header-stat {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+.asp4-header-stat strong {
+  color: #4f46e5;
+  font-weight: 700;
+}
+
+/* 서브 네비 탭 (화이트 테마, 소장품 종단노드 리스트) */
+.asp4-subnav {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 20px;
+  gap: 8px;
+  height: 48px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  z-index: 9;
+}
+.asp4-subnav::-webkit-scrollbar { display: none; }
+
+.asp4-subnav-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.asp4-subnav-item {
+  display: flex; align-items: center; gap: 5px;
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.asp4-subnav-item:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #3730a3;
+}
+.asp4-subnav-item.active {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
+}
+.asp4-subnav-cnt {
+  background: #e2e8f0;
+  color: #475569;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.asp4-subnav-item.active .asp4-subnav-cnt {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* ── 본문 ──────────────────────────────────────── */
+.asp4-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 왼쪽 사이드바 */
+.asp4-sidebar {
+  width: 200px;
+  min-width: 180px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #e0d8cc;
+  overflow-y: auto;
+  padding: 16px 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.asp4-sidebar-section {
+  margin-bottom: 18px;
+}
+
+.asp4-sidebar-head {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #1e2140;
+  padding: 0 14px 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e8e0d0;
+  margin-bottom: 6px;
+}
+
+.asp4-sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: #4a4540;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s, color 0.1s;
+  border-left: 3px solid transparent;
+  width: 100%;
+}
+.asp4-sidebar-item:hover { background: #f5f1eb; color: #1e2140; }
+.asp4-sidebar-item.active {
+  background: #f0ede4;
+  color: #1e2140;
+  font-weight: 700;
+  border-left-color: #c8a84b;
+}
+
+.asp4-sidebar-label {
+  flex: 1; text-align: left;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.asp4-sidebar-count {
+  color: #999; font-size: 0.74rem; margin-left: 4px; flex-shrink: 0;
+}
+.asp4-sidebar-item.active .asp4-sidebar-count { color: #c8a84b; }
+
+/* ── 메인 ──────────────────────────────────────── */
+.asp4-main {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 결과 요약 */
+.asp4-result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e0d8cc;
+  font-size: 0.85rem;
+  color: #555;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.asp4-result-kw { color: #b83c28; background: #fff3f0; padding: 0 3px; border-radius: 2px; font-weight: 700; }
+.asp4-result-count { color: #1e2140; font-weight: 800; }
+
+.asp4-result-controls { display: flex; align-items: center; gap: 8px; }
+
+.asp4-sort-sel {
+  height: 28px; padding: 0 10px;
+  border-radius: 4px; border: 1px solid #ddd;
+  background: #f8f6f2; font-size: 0.78rem; color: #444;
+  cursor: pointer; outline: none;
+}
+
+/* 빈 결과 */
+.asp4-empty {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  flex: 1; gap: 10px; padding: 80px 24px; text-align: center;
+}
+.asp4-empty-icon { color: #c8c0b0; }
+.asp4-empty-title { font-size: 1rem; font-weight: 600; color: #666; margin: 0; }
+.asp4-empty-sub { font-size: 0.84rem; color: #999; margin: 0; }
+.asp4-empty-reset {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 6px;
+  border: 1px solid #c8a84b; background: #fff;
+  color: #1e2140; font-size: 0.84rem; font-weight: 600;
+  cursor: pointer; margin-top: 6px;
+  transition: background 0.15s;
+}
+.asp4-empty-reset:hover { background: #faf5e8; }
+
+/* ── 카드 목록 (4열 그리드) ──────────────────────────────────── */
+.asp4-card-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 12px 16px;
+  gap: 12px;
+  align-items: start;
+}
+
+.asp4-card {
+  background: #fff;
+  border: 1px solid #e4ddd0;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.15s, transform 0.15s;
+  display: flex;
+  flex-direction: column;
+}
+.asp4-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.12); transform: translateY(-2px); }
+.asp4-card.expanded { border-color: #c8a84b; box-shadow: 0 4px 18px rgba(200,168,75,0.18); }
+
+/* 썸네일 상단 영역 */
+.asp4-card-thumb-area {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #f2ede4;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.asp4-card-thumb-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.asp4-card-thumb-top-ph {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c8c0b0;
+  background: #f2ede4;
+}
+/* 알약 배지 (#1 요약설명 (사이즈)) - 두 번째 파일 스타일로 통일 */
+.asp4-card-pill-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 0.78rem;
+  max-width: calc(100% - 16px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 5;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.asp4-card-badge-num {
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.asp4-card-badge-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+
+.asp4-card-badge-summary {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.asp4-card-badge-size {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.72rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.asp4-card-num-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(30,33,64,0.82);
+  color: #e8dfc0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 카드 본문 (두 번째 파일 스타일: 연하늘색 배경 + 텍스트 단락 + 정확히 3줄 제한 말줄임) */
+.asp4-card-body-v {
+  padding: 6px 10px !important;
+  background: #eff6ff !important;
+  border-top: 1px solid #bfdbfe !important;
+  font-size: 0.78rem !important;
+  line-height: 1.4 !important;
+  color: #1e3a8a !important;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex: none !important;
+  height: 64px !important;
+  min-height: 64px !important;
+  max-height: 64px !important;
+  box-sizing: border-box !important;
+  /* 정확히 3줄 줄바꿈 및 말줄임 (...) - 4번째 줄 절대 노출 불가 */
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  word-break: break-all !important;
+}
+
+.asp4-card-body-v:hover {
+  background: #dbeafe !important;
+}
+
+.asp4-card-info-seg {
+  display: inline;
+}
+
+.asp4-card-info-sep {
+  margin: 0 6px;
+  color: #94a3b8;
+  font-weight: 400;
+  user-select: none;
+}
+
+.asp4-card-info-empty {
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 0.75rem;
+}
+
+/* 도메인 배지 + 제목 */
+.asp4-card-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  cursor: pointer;
+  flex-wrap: wrap;
+}
+.asp4-card-title-row:hover .asp4-card-title-text { text-decoration: underline; }
+.asp4-card-domain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: #f0ede4;
+  color: #1e2140;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  border: 1px solid #d8d0b8;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.asp4-card-title-text {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e2140;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+/* 정보 행 공통 */
+.asp4-card-info-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+.asp4-ci-lbl {
+  color: #9ca3af;
+  font-size: 0.67rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.asp4-ci-val {
+  color: #1e293b;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* 사료분류 행 */
+.asp4-card-class-row-v { align-items: flex-start; }
+.asp4-ci-lbl-class { color: #7c3aed; font-weight: 600; }
+.asp4-ci-class-val { color: #374151; }
+.asp4-ci-class-name { font-weight: 600; color: #374151; }
+.asp4-ci-class-colon { color: #6b7280; }
+.asp4-ci-class-sep { color: #9ca3af; }
+.asp4-ci-none { color: #b0b0b0; font-style: italic; }
+
+/* 사료해설 건수 */
+.asp4-ci-doc-cnt {
+  font-weight: 700;
+  padding: 0px 6px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+}
+.asp4-ci-doc-cnt.has {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+.asp4-ci-doc-cnt.none {
+  background: #f9fafb;
+  color: #9ca3af;
+  border: 1px solid #e5e7eb;
+}
+
+/* 상세보기 버튼 (카드 내부 하단) */
+.asp4-card-body-v .asp4-card-detail-btn {
+  margin-top: 6px;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background: #f8f5f0;
+  color: #555;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.asp4-card-body-v .asp4-card-detail-btn:hover { background: #f0ede4; border-color: #c8a84b; color: #1e2140; }
+.asp4-card.expanded .asp4-card-body-v .asp4-card-detail-btn {
+  background: #1e2140; color: #e8dfc0; border-color: #1e2140;
+}
+
+/* 필드 정보 */
+.asp4-card-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.asp4-card-info-item {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.79rem; color: #555;
+}
+.asp4-card-info-lbl { color: #999; font-size: 0.72rem; }
+.asp4-card-info-val { color: #2c2820; }
+
+/* 태그 */
+.asp4-card-tags { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+.asp4-card-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #f0f7f0;
+  color: #2d6a3a;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: 1px solid #c0e0c8;
+}
+
+/* ── 카드 행 레이아웃 ─────────────────────────────── */
+
+/* 1행: 도메인:제목 + 아카이브수량 */
+.asp4-card-row1 {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.asp4-card-title-inline {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+.asp4-card-title-inline:hover .asp4-card-name { text-decoration: underline; }
+.asp4-card-domain-inline {
+  font-size: 0.78rem;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.asp4-card-title-sep {
+  color: #9ca3af;
+  font-size: 0.78rem;
+  flex-shrink: 0;
+}
+.asp4-card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e2140;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.asp4-card-archive-badge {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: #78350f;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+  padding: 1px 8px;
+  white-space: nowrap;
+}
+.asp4-card-archive-badge strong { font-weight: 700; margin-left: 2px; }
+
+/* 2행: 상태설명 */
+.asp4-card-row2 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  font-size: 0.75rem;
+}
+
+/* 3행: 사료분류(...) */
+.asp4-card-row3 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 3px;
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+.asp4-card-class-keyword {
+  color: #7c3aed;
+  font-weight: 700;
+  font-size: 0.72rem;
+  margin-right: 1px;
+}
+.asp4-card-class-paren {
+  color: #6b7280;
+  font-size: 0.72rem;
+}
+.asp4-card-class-entry { display: inline; }
+.asp4-card-class-name { color: #374151; font-weight: 600; }
+.asp4-card-class-colon { color: #4b5563; }
+.asp4-card-class-comma { color: #9ca3af; }
+
+/* 4행: 포함자료(…) + 사료해설: 있음 */
+.asp4-card-row4 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 0.73rem;
+}
+.asp4-card-sub-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.asp4-card-sub-keyword {
+  color: #0369a1;
+  font-weight: 700;
+  font-size: 0.72rem;
+  margin-right: 1px;
+}
+.asp4-card-sub-entry { display: inline; }
+.asp4-card-sub-lbl { color: #374151; font-weight: 600; }
+.asp4-card-sub-colon { color: #6b7280; }
+.asp4-card-sub-cnt { color: #1d4ed8; font-weight: 700; }
+.asp4-card-doc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 1px 8px;
+  font-size: 0.69rem;
+}
+.asp4-card-doc-yn {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+/* info-lbl/val (상태설명 행 등에서 공유) */
+.asp4-card-info-lbl { color: #9ca3af; font-size: 0.7rem; }
+.asp4-card-info-val { color: #1e293b; font-weight: 600; font-size: 0.75rem; }
+
+/* 오른쪽 버튼 영역 */
+.asp4-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.asp4-card-detail-btn {
+  display: flex; align-items: center; gap: 4px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background: #f8f5f0;
+  color: #555;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.asp4-card-detail-btn:hover { background: #f0ede4; border-color: #c8a84b; color: #1e2140; }
+.asp4-card.expanded .asp4-card-detail-btn {
+  background: #1e2140; color: #e8dfc0; border-color: #1e2140;
+}
+
+/* 상세 펼침 */
+.asp4-card-detail {
+  padding: 14px 16px 16px;
+  border-top: 1px solid #f0ebe0;
+  background: #faf7f0;
+}
+.asp4-card-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px 18px;
+}
+.asp4-detail-row { display: flex; flex-direction: column; gap: 2px; }
+.asp4-detail-lbl { font-size: 0.68rem; color: #999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+.asp4-detail-val { font-size: 0.83rem; color: #1a1620; word-break: break-word; line-height: 1.5; }
+.asp4-detail-img-wrap { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+.asp4-detail-img {
+  width: 90px; height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.asp4-detail-img:hover { transform: scale(1.04); }
+
+/* ── 페이지네이션 ───────────────────────────────── */
+.asp4-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px 0 20px;
+  flex-shrink: 0;
+}
+.asp4-page-btn {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 34px; height: 34px;
+  padding: 0 6px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #444;
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.asp4-page-btn:hover:not(:disabled) { border-color: #c8a84b; color: #1e2140; background: #faf5e8; }
+.asp4-page-btn.active { background: #1e2140; color: #e8dfc0; border-color: #1e2140; font-weight: 700; }
+.asp4-page-btn:disabled { opacity: 0.3; cursor: default; }
+.asp4-page-dot { color: #aaa; padding: 0 4px; font-size: 0.85rem; line-height: 34px; }
+
+/* ── 반응형 ─────────────────────────────────────── */
+@media (max-width: 700px) {
+  .asp4-sidebar { display: none; }
+  .asp4-header-logo { display: none; }
+  .asp4-subnav { display: none; }
+  .asp4-card-thumb, .asp4-card-thumb-ph { width: 52px; height: 52px; }
+  .asp4-home-title { font-size: 1.4rem; }
+  .asp4-home-search-wrap { flex-direction: column; }
+  .asp4-home-domain-sel { min-width: unset; width: 100%; height: 44px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .asp4-home-input { height: 48px; }
+}
+
+/* ── 카드 신규 스타일 (v4.1) ───────────────────── */
+.asp4-card-domain-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.asp4-card-title-main {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.4;
+  margin-bottom: 5px;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.asp4-card-class-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 5px;
+  min-height: 18px;
+}
+.asp4-card-class-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.asp4-card-class-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.asp4-card-class-none {
+  font-size: 0.72rem;
+  color: #bbb;
+}
+.asp4-card-img-count {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+.asp4-card-img-count strong {
+  color: #1e2140;
+  font-weight: 700;
+}
+
+/* ── 상세 팝업 모달 ─────────────────────────────── */
+.asp4-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  animation: asp4-fadeIn 0.15s ease;
+}
+@keyframes asp4-fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.asp4-popup-modal {
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  min-height: unset;
+  background: #111827;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: none;
+  animation: asp4-slideUp 0.18s ease;
+}
+@keyframes asp4-slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* 팝업 헤더 */
+.asp4-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.asp4-popup-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.asp4-popup-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.asp4-popup-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: #d1d5db;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.asp4-popup-tab-btn:hover {
+  background: #374151;
+  color: #ffffff;
+  border-color: #4b5563;
+}
+.asp4-popup-tab-btn.active {
+  background: #4f46e5;
+  border-color: #6366f1;
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+}
+
+/* 상단 이전/다음 페이징 (1/4 등) */
+.asp4-popup-pager-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+.asp4-popup-pager-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.asp4-popup-pager-btn:hover:not(:disabled) {
+  background: #374151;
+  color: #ffffff;
+}
+.asp4-popup-pager-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.asp4-popup-pager-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #f3f4f6;
+  padding: 0 6px;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+/* 상단 메타 정보 (사료경로 > 등록설명 | 분류항목) */
+.asp4-popup-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #f3f4f6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 4px;
+}
+.asp4-popup-path-text {
+  font-weight: 600;
+  color: #ffffff;
+}
+.asp4-popup-meta-sep {
+  color: #6b7280;
+  font-weight: 300;
+}
+.asp4-popup-class-text {
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+.asp4-popup-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.asp4-popup-close-btn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+/* 팝업 본문 (이미지 중앙 고정 + 사료설명 좌측 오버레이) */
+.asp4-popup-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 좌측: 사료설명 클릭 시 나타나는 사료전체 내용 패널 - 오버레이(Drawer) 방식 (이미지 위치 고정보장) */
+.asp4-popup-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 360px;
+  max-width: 85vw;
+  padding: 24px 22px;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 16px 0 40px rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: asp4-slideInLeft 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 25;
+}
+@keyframes asp4-slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.asp4-popup-left::-webkit-scrollbar { width: 5px; }
+.asp4-popup-left::-webkit-scrollbar-track { background: transparent; }
+.asp4-popup-left::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+
+.asp4-popup-left-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.asp4-popup-left-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #94a3b8;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.asp4-popup-left-close-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.asp4-popup-left-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.45;
+  word-break: break-word;
+}
+.asp4-popup-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.asp4-popup-class-area {
+  display: flex;
+  flex-direction: column;
+}
+.asp4-popup-class-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.asp4-popup-class-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #312e81;
+  color: #e0e7ff;
+  border: 1px solid #4338ca;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.asp4-popup-doc-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.asp4-popup-doc-text {
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  user-select: text;
+}
+
+/* 우측/중앙: 이미지 뷰어 (항상 전체 100% 중앙 정렬 유지) */
+.asp4-popup-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #030712;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+.asp4-popup-img-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+}
+.asp4-popup-main-img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  transform-origin: center center;
+}
+.asp4-popup-img-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #6b7280;
+}
+
+/* 하단 중앙 플로팅 툴바 */
+.asp4-popup-floating-toolbar {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(17, 24, 39, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  color: #f3f4f6;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  z-index: 50;
+  user-select: none;
+}
+.asp4-pft-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.asp4-pft-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+.asp4-pft-scale {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  min-width: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.asp4-pft-sep {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.85rem;
+}
+.asp4-pft-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+.asp4-popup-img-empty p {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* 팝업 반응형 */
+@media (max-width: 640px) {
+  .asp4-popup-body { flex-direction: column; }
+  .asp4-popup-left { width: 100%; max-height: 200px; border-right: none; border-bottom: 1px solid #1f2937; }
+  .asp4-popup-modal { max-height: 95vh; }
+}

@@ -1,0 +1,358 @@
+/* 이미지 업로드 입력 컴포넌트 스타일 */
+.image-upload-wrapper {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+.image-upload-wrapper.compact {
+  width: auto;
+  min-width: 90px;
+}
+
+/* 첨부 버튼 */
+.btn-image-upload-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 14px;
+  background: #f0f7ff;
+  border: 1.5px dashed #93c5fd;
+  border-radius: 6px;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-image-upload-trigger:hover:not(:disabled) {
+  background: #e0f2fe;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(59, 130, 246, 0.15);
+}
+
+.btn-image-upload-trigger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.image-upload-wrapper.compact .btn-image-upload-trigger {
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 5px;
+}
+
+.image-upload-icon {
+  flex-shrink: 0;
+}
+
+.image-upload-label {
+  white-space: nowrap;
+}
+
+.image-upload-spinner {
+  font-size: 11px;
+  color: #3b82f6;
+  animation: pulse 1s infinite;
+}
+
+/* 이미지 등록 후 프리뷰 배지 행 */
+.image-preview-badge-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.image-thumb-box {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.image-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.image-thumb-box:hover .image-thumb-overlay {
+  opacity: 1;
+}
+
+/* 액션 버튼들 */
+.image-action-btns {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.btn-image-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-image-change:hover:not(:disabled) {
+  border-color: #3b82f6;
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.btn-image-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 5px;
+  font-size: 11px;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  background: #fef2f2;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-image-remove:hover {
+  background: #fee2e2;
+  border-color: #f87171;
+}
+
+/* ═══════════════════════════════════════════════
+   복수 이미지 업로드 (Multiple mode)
+═══════════════════════════════════════════════ */
+.image-multi-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* 이미지+설명 쌍 한 줄 */
+.image-pair-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  transition: border-color 0.15s;
+}
+
+.image-pair-row:hover {
+  border-color: #93c5fd;
+  background: #f0f9ff;
+}
+
+/* 썸네일 영역 */
+.image-pair-thumb-area {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.image-pair-thumb {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  background: #f1f5f9;
+  cursor: pointer;
+}
+
+.image-pair-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image-pair-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.image-pair-thumb:hover .image-pair-thumb-overlay {
+  opacity: 1;
+}
+
+.image-pair-empty-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
+  border: 1.5px dashed #93c5fd;
+  background: #eff6ff;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.image-pair-empty-btn:hover:not(:disabled) {
+  background: #dbeafe;
+  border-color: #2563eb;
+}
+
+.image-pair-change-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  font-size: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.image-pair-change-btn:hover:not(:disabled) {
+  border-color: #3b82f6;
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+/* 설명 영역 */
+.image-pair-desc-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.image-pair-index-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.image-pair-desc-input {
+  flex: 1;
+  padding: 5px 8px;
+  font-size: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background: #fff;
+  color: #1e293b;
+  outline: none;
+  min-width: 0;
+  transition: border-color 0.15s;
+}
+
+.image-pair-desc-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12);
+}
+
+/* 쌍 삭제 버튼 */
+.image-pair-remove-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  background: #fef2f2;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.image-pair-remove-btn:hover {
+  background: #fee2e2;
+  border-color: #f87171;
+}
+
+/* 추가 버튼 행 */
+.image-multi-add-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.image-multi-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px dashed #93c5fd;
+  border-radius: 6px;
+  background: #f0f7ff;
+  color: #2563eb;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.image-multi-add-btn:hover:not(:disabled) {
+  background: #dbeafe;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+.image-multi-add-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.image-multi-count {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}

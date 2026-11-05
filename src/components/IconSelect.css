@@ -1,0 +1,147 @@
+.icon-select-container {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.icon-select-trigger {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+  height: 38px;
+}
+
+.icon-select-trigger:hover {
+  border-color: #94a3b8;
+  background-color: #f8fafc;
+}
+
+.icon-select-trigger.active,
+.icon-select-trigger:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+.icon-select-current {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-select-icon {
+  color: #4f46e5;
+  flex-shrink: 0;
+}
+
+.icon-select-label {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.icon-select-arrow {
+  color: #64748b;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.icon-select-arrow.open {
+  transform: rotate(180deg);
+  color: #4f46e5;
+}
+
+.icon-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.2), 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+  max-height: 490px;
+  overflow-y: auto;
+  z-index: 12500;
+  padding: 6px;
+  box-sizing: border-box;
+  animation: iconSelectFadeIn 0.15s ease;
+}
+
+.icon-select-dropdown--portal {
+  box-sizing: border-box;
+}
+
+@keyframes iconSelectFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.icon-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.icon-select-option:hover {
+  background-color: #f1f5f9;
+}
+
+.icon-select-option.selected {
+  background-color: #eef2ff;
+  color: #4338ca;
+  font-weight: 600;
+}
+
+.icon-select-option-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: inherit;
+}
+
+.icon-select-option-icon {
+  color: #64748b;
+  flex-shrink: 0;
+  transition: color 0.12s ease;
+}
+
+.icon-select-option:hover .icon-select-option-icon {
+  color: #334155;
+}
+
+.icon-select-option.selected .icon-select-option-icon {
+  color: #4f46e5;
+}
+
+.icon-select-option-text {
+  color: inherit;
+}
+
+.icon-select-check {
+  color: #4f46e5;
+  flex-shrink: 0;
+}

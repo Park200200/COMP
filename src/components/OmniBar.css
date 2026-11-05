@@ -1,0 +1,661 @@
+.omnibar-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 1.5rem auto 1.5rem;
+  z-index: 999;
+}
+
+.omnibar-search-group {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.omnibar-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px;
+  min-height: 52px;
+  background: #ffffff; /* Clean white background as per image */
+  border: 1px solid #d1d5db; /* Thin light grey border as per image */
+  border-radius: 9999px; /* Fully rounded search bar as per image */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.omnibar-container.active {
+  border-color: var(--primary-light);
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.1), 0 4px 6px -4px rgba(99, 102, 241, 0.1);
+}
+
+.omnibar-container.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  height: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  overflow: hidden;
+}
+
+/* Sliding Switch Selector */
+.omnibar-switch {
+  display: flex;
+  position: relative;
+  background: #f1f5f9;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+  padding: 2px;
+  height: 36px;
+  width: 104px;
+  user-select: none;
+}
+
+.switch-slider {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: calc(50% - 2px);
+  border-radius: 9999px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+}
+
+.switch-slider.input {
+  background: var(--primary);
+  transform: translateX(0);
+}
+
+.switch-slider.search {
+  background: var(--secondary);
+  transform: translateX(100%);
+}
+
+.switch-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #64748b;
+  z-index: 5;
+  transition: color 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch-btn.active {
+  color: #ffffff;
+}
+
+/* Input Chain Chips inside OmniBar */
+.input-chain {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chain-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(99, 102, 241, 0.06);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.chain-chip .chip-type {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.chain-chip .chip-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.chain-chip .chip-remove:hover {
+  background: rgba(220, 38, 38, 0.1);
+  color: var(--error);
+}
+
+/* Core Input Element */
+.omnibar-input-element {
+  flex: 1;
+  min-width: 150px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+  padding: 4px 0;
+}
+
+.omnibar-input-element::placeholder {
+  color: var(--text-muted);
+}
+
+/* Interactive Dropdown Popups */
+.omnibar-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-header {
+  padding: 10px 16px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-list {
+  list-style: none;
+  padding: 4px 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-item.selected, .dropdown-item:hover {
+  background: rgba(99, 102, 241, 0.06);
+  color: var(--text-primary);
+}
+
+.dropdown-item .item-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.dropdown-item .item-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Empty Dropdown State */
+.dropdown-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* Bottom Helper Bar */
+.omnibar-helper-text {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.omnibar-helper-text span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.key-pill {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+/* --- Dynamic Input Card (Appears above search bar as per image) --- */
+.dynamic-input-card {
+  margin-top: 1.25rem;
+  padding: 1.5rem 0 1.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.dynamic-fields-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  overflow: visible;
+}
+
+.dynamic-fields-grid {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  overflow: visible;
+  padding-top: 6px;
+}
+
+.dynamic-field-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  flex: 1;
+  overflow: visible;
+}
+
+.dynamic-field-label {
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  background: var(--bg-main, #f8fafc);
+  padding: 0 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #475569;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  z-index: 1001;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dynamic-field-label:hover {
+  color: var(--primary);
+  border-color: var(--primary-light);
+  background: rgba(99, 102, 241, 0.04);
+}
+
+
+.dynamic-field-input {
+  width: 100%;
+  height: 42px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.88rem;
+  transition: var(--transition-fast);
+}
+
+.dynamic-field-input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+
+/* Big Plus Button to Add / Save */
+.btn-add-chain {
+  width: 42px;
+  min-height: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  align-self: flex-end;
+  flex-shrink: 0;
+}
+
+.btn-add-chain:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+  color: #111827;
+  transform: scale(1.03);
+}
+
+.btn-add-chain:active {
+  transform: scale(0.97);
+}
+
+/* Remove chain button */
+.btn-add-chain.remove {
+  background-color: transparent;
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.btn-add-chain.remove:hover {
+  background-color: rgba(239, 68, 68, 0.08);
+  border-color: #ef4444;
+  color: #dc2626;
+  transform: scale(1.03);
+}
+
+.btn-add-chain.remove:active {
+  transform: scale(0.97);
+}
+
+/* Connected detail info guide box below input card fields */
+.dynamic-card-guide-box {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.8rem;
+  color: #4b5563;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Individual field remove button inside dynamic input card */
+.btn-field-remove {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.dynamic-field-group:hover .btn-field-remove {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.btn-field-remove:hover {
+  background-color: #f3f4f6;
+  color: #ef4444;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.btn-field-remove:active {
+  transform: translateY(-50%) scale(0.9);
+}
+
+/* 주소 검색 (우편번호 찾기) 버튼 */
+.btn-address-search {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #6366f1;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  z-index: 15;
+}
+
+.btn-address-search:hover {
+  background: #4f46e5;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.btn-address-search:active {
+  transform: translateY(-50%) scale(0.95);
+}
+/* Styles for already selected dropdown item */
+.dropdown-item.already-selected {
+  opacity: 0.55;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.dropdown-item.already-selected.selected,
+.dropdown-item.already-selected:hover {
+  background: rgba(99, 102, 241, 0.04);
+  opacity: 0.75;
+}
+
+/* Field autocomplete dropdown - appears below the input card */
+.field-autocomplete-dropdown {
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  min-height: 80px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.field-autocomplete-dropdown .dropdown-header {
+  padding: 10px 16px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field-autocomplete-dropdown .dropdown-list {
+  list-style: none;
+  padding: 4px 0;
+}
+
+.field-autocomplete-dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field-autocomplete-dropdown .dropdown-item.selected,
+.field-autocomplete-dropdown .dropdown-item:hover {
+  background: rgba(99, 102, 241, 0.06);
+  color: var(--text-primary);
+}
+
+.field-autocomplete-dropdown .dropdown-item .item-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.field-autocomplete-dropdown .dropdown-item .item-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Empty hint when no search results */
+.dropdown-empty-hint {
+  padding: 14px 16px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  font-style: italic;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Saved items list below the input card */
+.saved-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.saved-item-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 10px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.saved-item-card:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.saved-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #ffffff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.saved-item-row:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.saved-item-fields {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.saved-item-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  flex: 1;
+}
+
+.saved-field-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.saved-field-value {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 연결 해제 버튼 */
+.btn-unlink {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.saved-item-field:hover .btn-unlink {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.btn-unlink:hover {
+  background: #dc2626;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.btn-unlink:active {
+  transform: scale(0.9);
+}
